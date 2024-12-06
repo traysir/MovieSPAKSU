@@ -1,6 +1,7 @@
 $(document).ready(function () {
     const API_KEY = '7b2485ce89eb09a2e33243b3bdadd04b';
-    const BASE_URL = 'https://api.themoviedb.org/3';
+    const BASE_URL = 'https://cors-anywhere.herokuapp.com/https://api.themoviedb.org/3';
+
 
     loadPopularMovies();
 
