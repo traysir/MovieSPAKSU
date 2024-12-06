@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actor Details</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="app" class="container mt-4">
+        <button id="back-button" class="btn btn-secondary mb-4">Back to Main</button>
+        <div id="actor-details"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const API_KEY = '7b2485ce89eb09a2e33243b3bdadd04b';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+
+        $(document).ready(function () {
+            const actorId = localStorage.getItem('actorId');
+            if (!actorId) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            $.ajax({
+                url: `${BASE_URL}/person/${actorId}`,
+                data: { api_key: API_KEY },
+                success: function (response) {
+                    displayActorInfo(response);
+                },
+                error: function (err) {
+                    console.error('Error fetching actor details:', err);
+                }
+            });
+
+            $('#back-button').on('click', function () {
+                window.location.href = 'index.html';
+            });
+        });
+
+        function displayActorInfo(actor) {
+            const actorDetails = `
+                <h2>${actor.name}</h2>
+                <img src="https://image.tmdb.org/t/p/w300${actor.profile_path || 'assets/no-image-available.png'}" alt="${actor.name}" style="border-radius: 5px; margin-bottom: 10px;">
+                <p><strong>Birthday:</strong> ${actor.birthday || 'N/A'}</p>
+                <p><strong>Biography:</strong> ${actor.biography || 'No biography available.'}</p>
+            `;
+            $('#actor-details').html(actorDetails);
+        }
+    </script>
+</body>
+</html>
